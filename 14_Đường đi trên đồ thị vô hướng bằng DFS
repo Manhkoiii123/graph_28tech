@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+
+int n,m,x,y;
+vector<int>ke[1005];
+bool vis[1005];
+int par[1005];
+void dfs(int x){
+    vis[x]=true;
+    for(int v:ke[x]){
+        if(!vis[v]){
+            dfs(v);
+            par[v]=x;
+        }
+    }
+}
+
+int main(){
+    cin>>n>>m>>x>>y;
+    for(int i=0;i<m;i++){
+        int a,b;
+        cin>>a>>b;
+        ke[a].push_back(b);
+        ke[b].push_back(a);
+        ms(vis,false);
+    }
+    for(int i=1;i<=n;i++){
+        sort(all(ke[i]));
+    }
+    dfs(x);
+    if(vis[y]==false){
+        cout<<"-1"<<endl;
+    }
+    else{
+        vector<int>path;
+        while(y!=x){
+            path.push_back(y);
+            y=par[y];
+        }
+        path.push_back(y);
+        reverse(all(path));
+        for(auto it: path){
+            cout<<it<<" ";
+        }
+    }
+    system("pause");
+}
