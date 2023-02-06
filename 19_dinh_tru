@@ -1,0 +1,117 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+vector<int>ke[1005];
+bool vis[1005];
+int n,m;
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int a,b;
+        cin>>a>>b;
+        ke[a].push_back(b);
+        ke[b].push_back(a);
+    }
+}
+void dfs(int x){
+    vis[x]=true;
+    for(int v:ke[x]){
+        if(!vis[v]){
+            dfs(v);
+        }
+    }
+}
+int main(){
+    int ans=0;
+    nhap();
+    int tplt=0;
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            ++tplt;
+            dfs(i);
+        }
+    }
+    for(int i=1;i<=n;i++){
+        ms(vis,false);
+        vis[i]=true;
+        int dem=0;
+        for(int j=1;j<=n;j++){
+            if(!vis[j]){
+                ++dem;
+                dfs(j);
+            }
+        }
+        if(dem>tplt) ++ans;
+    }
+    cout<<ans<<endl;
+    system("pause");
+}
+
+
+------------------------------------------tarjan------------------------------------------------------
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+int timer=0;
+vector<int>adj[1005];
+int disc[1005],low[1005];
+bool vis[1005];
+bool ap[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+        
+    }
+    ms(vis,false);
+    ms(ap,false);
+}
+void dfs(int u,int par){
+    vis[u]=true;
+    disc[u]=low[u]=++timer;
+    int child=0;
+    for(int v:adj[u]){
+        if(v==par) continue;
+        if(!vis[v]){
+            dfs(v,u);
+            ++child;
+            low[u]=min(low[u],low[v]);
+            if(par!=-1&&disc[u]<=low[v]){
+                ap[u]=true;
+            }
+        }
+        else{
+            low[u]=min(low[u],disc[v]);
+        }
+    }
+    if(par==-1&&child>1) ap[u]=true;
+}
+
+int main(){
+    nhap();
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            dfs(i,-1);
+        }
+    }
+    int ans=0;
+    for(int i=1;i<=n;i++){
+        if(ap[i]) ++ans;
+    }
+    cout<<ans<<endl;
+    system("pause");
+}
