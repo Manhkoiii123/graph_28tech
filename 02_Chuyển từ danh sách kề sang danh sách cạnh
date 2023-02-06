@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+const int MOD = (int)(1e9+7);
+int dx[4]={-1,0,0,1};
+int dy[4]={0,-1,1,0};
+int dx1[8]={-1,-1,-1,0,0,1,1,1};
+int dy1[8]={-1,0,1,-1,1,-1,0,1};
+int n;
+vector<pii>v;
+int main(){
+    cin>>n;
+    cin.ignore();
+    for(int i=1;i<=n;i++){
+        string s,number;
+        getline(cin,s);
+        stringstream ss(s);
+        while(ss>>number){
+            if(stoi(number)>i){
+                v.push_back({i,stoi(number)});
+            }
+        }
+    }
+    for(int i=0;i<v.size();i++){
+        cout<<v[i].first<<" "<<v[i].second<<endl;
+    }
+    system("pause");
+}
