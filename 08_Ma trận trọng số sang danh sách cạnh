@@ -1,0 +1,36 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define piii pair<pair<int,int>,int>
+const int MOD = (int)(1e9+7);
+int n;
+int a[1005][1005];
+vector<piii>v;
+bool cmp(piii a,piii b){
+    if(a.first.first==b.first.first){
+        return a.first.second<b.first.second;
+    }
+    else return a.first.first<b.first.first;
+}
+int main(){
+    cin>>n;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            cin>>a[i][j];
+        }
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            if(a[i][j]&&i<j){
+                v.push_back({{i,j},a[i][j]});
+            }
+        }
+    }
+    sort(v.begin(),v.end(),cmp);
+    for(auto it:v){
+        cout<<it.first.first<<" "<<it.first.second<<" "<<it.second<<endl;
+    }
+    system("pause");
+}
