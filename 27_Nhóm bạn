@@ -1,0 +1,101 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+vector<int>ke[1005];
+bool vis[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        ke[y].push_back(x);
+    }
+}
+int ans;
+void dfs(int x){
+    vis[x]=true;
+    for(int v:ke[x]){
+        if(!vis[v]){
+            ++ans;
+            dfs(v);
+        }
+    }
+}
+int main(){
+    nhap();
+    int res=0;
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            ans=1;
+            dfs(i);
+            if(ans>res){
+                res=ans;
+            }
+        }
+    }
+    cout<<res<<endl;
+    system("pause");
+}
+
+------------------------------------------dsu----------------------------------------
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+int size[1005];
+int par[1005];
+
+void khoi_tao(){
+    for(int i=1;i<=n;i++){
+        par[i]=i;
+        size[i]=1;
+    }
+}
+int find(int a){
+    if(a==par[a]){
+        return a;
+    }
+    else return par[a]=find(par[a]);
+}
+int ans;
+bool Union(int a,int b){
+    a=find(a);
+    b=find(b);
+    if(a==b){
+        return 0;
+    }
+    if(size[a]<size[b]){
+        par[a]=b;
+        size[b]+=size[a];
+        ans=max(ans,size[b]);
+    }
+    else {
+        par[b]=a;
+        size[a]+=size[b];
+        ans=max(ans,size[a]);
+    }
+    return 1;
+}
+int main(){
+    cin>>n>>m;
+    khoi_tao();
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        Union(x,y);
+    }
+    cout<<ans<<endl;
+    system("pause");
+}
