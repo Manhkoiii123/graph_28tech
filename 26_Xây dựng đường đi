@@ -1,0 +1,45 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+vector<int>ke[1005];
+bool vis[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i= 0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        ke[y].push_back(x);
+    }
+}
+vector<int>v;
+
+void dfs(int x){
+    vis[x]=true;
+    for(int v:ke[x]){
+        if(!vis[v]){
+            dfs(v);
+        }
+    }
+}
+int main(){
+    nhap();
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            dfs(i);
+            v.push_back(i);
+            
+        }
+    }
+    cout<<v.size()-1<<endl;
+    for(int i=0;i<v.size()-1;i++){
+        cout<<v[i]<<" "<<v[i+1]<<endl;
+    }
+    system("pause");
+}
