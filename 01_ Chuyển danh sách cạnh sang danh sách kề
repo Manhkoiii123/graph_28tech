@@ -1,0 +1,31 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+const int MOD = (int)(1e9+7);
+int dx[4]={-1,0,0,1};
+int dy[4]={0,-1,1,0};
+int dx1[8]={-1,-1,-1,0,0,1,1,1};
+int dy1[8]={-1,0,1,-1,1,-1,0,1};
+vector<int>ke[1005];
+int n,m;
+int main(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        ke[y].push_back(x);
+    }
+    for(int i=1;i<=n;i++){
+        sort(ke[i].begin(),ke[i].end());
+        cout<<i<<" : ";
+        for(int x:ke[i]){
+            cout<<x<<" ";
+        }
+        cout<<endl;
+    }
+    
+    system("pause");
+}
