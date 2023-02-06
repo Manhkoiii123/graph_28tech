@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+
+const int MOD = (int)(1e9+7);
+int n,m,s;
+vector<int>ke[1005];
+bool vis[1005];
+void bfs(int x){
+    queue<int>q;
+    q.push(x);
+    vis[x]=true;
+    while(!q.empty()){
+        int top=q.front();q.pop();
+        cout<<top<<" ";
+        for(int v:ke[top]){
+            if(!vis[v]){
+                q.push(v);
+                vis[v]=true;
+            }
+        }
+    }
+}
+int main(){
+    cin>>n>>m>>s;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        
+        ms(vis,false);
+    }
+    for(int i=1;i<=n;i++){
+        sort(all(ke[i]));
+    }
+    bfs(s);
+    system("pause");
+}
