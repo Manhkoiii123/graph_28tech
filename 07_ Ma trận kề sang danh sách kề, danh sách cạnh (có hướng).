@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+const int MOD = (int)(1e9+7);
+vector<int>ke[1005];
+int n;
+vector<pii>canh;
+
+bool cmp(pii a,pii b){
+    if(a.first==b.first){
+        return a.second<b.second;
+    }
+    else return a.first<b.first;
+}
+
+int main(){
+    cin>>n;
+    int a[n+1][n+1];
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            cin>>a[i][j];
+        }
+    }
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+           if(a[i][j]){
+                canh.push_back({i,j});
+                ke[i].push_back(j);
+           }
+        }
+    }
+    sort(canh.begin(),canh.end(),cmp);
+    for(int i=0;i<canh.size();i++){
+        cout<<canh[i].first<<" "<<canh[i].second<<endl;
+    }
+    cout<<endl;
+    for(int i=1;i<=n;i++){
+        sort(ke[i].begin(),ke[i].end());
+        cout<<i<<" : ";
+        for(int j=0;j<ke[i].size();j++){
+            cout<<ke[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    system("pause");
+}
