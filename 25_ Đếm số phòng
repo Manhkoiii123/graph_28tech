@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int dx[4]={-1,0,0,1};
+int dy[4]={0,-1,1,0};
+
+int n,m;
+char a[1005][1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cin>>a[i][j];
+        }
+    }
+}
+
+void dfs(int x,int y){
+    a[x][y]='#';
+    for(int k=0;k<4;k++){
+        int i=x+dx[k];
+        int j=y+dy[k];
+        if(i>=0&&i<n&&j>=0&&j<m&&a[i][j]=='.'){
+            dfs(i,j);
+        }
+    }
+}
+int main(){
+    nhap();
+    int ans=0;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(a[i][j]=='.'){
+                ++ans;
+                dfs(i,j);
+
+            }
+        }
+    }
+    cout<<ans<<endl;
+    system("pause");
+}
