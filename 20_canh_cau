@@ -1,0 +1,115 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+bool vis[1005];
+vector<int>adj[1005];
+vector<pii>edge;
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        edge.push_back({x,y});
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+    }
+    ms(vis,false);
+}
+void dfs(int u,int x,int y){
+    vis[u]=true;
+    for(int v:adj[u]){
+        if(x==u&&y==v||x==v&&y==u){
+            continue;
+        }
+        if(!vis[v]){
+            dfs(v,x,y);
+        }
+    }
+}
+int main(){
+    nhap();
+    int tplt=0;
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            ++tplt;
+            dfs(i,-1,-1);
+        }
+    }
+    int ans=0;
+    
+    for(auto it:edge){
+        int x=it.first;
+        int y=it.second;
+        int dem=0;
+        ms(vis,false);
+        for(int j=1;j<=n;j++){
+            if(!vis[j]){
+                ++dem;
+                dfs(j,x,y);
+            }
+        }
+        if(dem>tplt){
+            ++ans;
+        }
+    }
+    cout<<ans<<endl;
+    system("pause");
+}
+---------------------------------------tarjan--------------------------------------------------
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+int timer=0;
+vector<int>adj[1005];
+int disc[1005],low[1005];
+bool vis[1005];
+vector<pii>edge;
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+        adj[y].push_back(x);
+    }
+}
+void dfs(int u,int par){
+    vis[u]=true;
+    disc[u]=low[u]=++timer;
+    for(int v:adj[u]){
+        if(v==par) continue;
+        if(!vis[v]){
+            dfs(v,u);
+            low[u]=min(low[u],low[v]);
+            if(disc[u]<low[v]){
+                edge.push_back({u,v});
+            }
+        }
+        else{
+            low[u]=min(low[u],disc[v]);
+        }
+    }
+}
+int main(){
+    nhap();
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            dfs(i,-1);
+        }
+    }
+    cout<<edge.size()<<endl;
+    system("pause");
+}
