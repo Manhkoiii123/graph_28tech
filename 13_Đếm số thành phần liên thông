@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+
+vector<int>ke[1005];
+bool ok[1005];
+bool vis[1005];
+void dfs(int x){
+    vis[x]=true;
+    for(int v:ke[x]){
+        if(!vis[v]){
+            dfs(v);
+        }
+    }
+}
+int main(){
+    int n , m ; cin >> n >> m ;
+    for(int i = 1 ; i <= m ; i++){
+        int a , b ; cin >> a >> b;
+        ke[a].push_back(b);
+        ke[b].push_back(a);
+        ms(vis,false);
+    }
+    int ans = 0;
+    for(int i = 1 ; i <= n ;i++){
+        sort(all(ke[i]));
+    }
+    for(int i = 1 ; i <= n ; i++){
+        if(!vis[i]){
+            ++ans;
+            dfs(i);
+        }
+    }
+    cout << ans<<endl;
+    system("pause");
+}
+
+
+
+
