@@ -1,0 +1,94 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+int vis[1005];
+int par[1005];
+vector<int>ke[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+    }
+    ms(vis,0);
+}
+bool dfs(int u){
+    vis[u]=1;
+    for(int v:ke[u]){
+        if(vis[v]==0){
+            par[v]=u;
+            if(dfs(v)) return true;
+        }
+        else if(vis[v]==1) return true;
+    }
+    vis[u]=2;
+    return false;
+}
+int main(){
+    nhap();
+    for(int i=1;i<=n;i++){
+        if(vis[i]==0){
+            if(dfs(i)){
+                cout<<1<<endl;
+                system("pause");
+                return 0;
+            }
+        }
+    }
+    cout<<0<<endl;
+    system("pause");
+}
+---------------------------------------bfs---------------------------------------
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+vector<int>ke[1005];
+int de[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        de[y]++;
+    }
+}
+void kahn(){
+    queue<int>q;
+    for(int i=1;i<=n;i++){
+        if(de[i]==0){
+            q.push(i);
+        }
+    }
+    vector<int>topo;
+    while(!q.empty()){
+        int u=q.front();q.pop();
+        topo.push_back(u);
+        for(int v:ke[u]){
+            --de[v];
+            if(de[v]==0){
+                q.push(v);
+            }
+        }
+    }
+    if(topo.size()<n) cout<<1<<endl;
+    else cout<<0<<endl;
+}
+int main(){
+    nhap();
+    kahn();
+    system("pause");
+}
