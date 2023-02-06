@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int k,n,m;
+vector<int>ke[1005];
+int a[1005];
+void nhap(){
+    cin>>k>>n>>m;
+    for(int i=0;i<k;i++){
+        cin>>a[i];
+    }
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+    }
+}
+bool vis[1005];
+map<int,int>mp;
+void bfs(int x){
+    queue<int>q;
+    q.push(x);
+    vis[x]=true;
+    mp[x]++;
+    while(!q.empty()){
+        int top=q.front();q.pop();
+        for(int v:ke[top]){
+            if(!vis[v]){
+                q.push(v);
+                mp[v]++;
+                vis[v]=true;
+            }
+        }
+    }
+}
+int main(){
+    nhap();
+    for(int i=0;i<k;i++){
+        ms(vis,false);
+        bfs(a[i]);
+    }
+    int cnt=0;
+    for(int i=1;i<=n;i++){
+        if(mp[i]==k) ++cnt;
+    }
+    cout<<cnt<<endl;
+    system("pause");
+}
