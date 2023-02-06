@@ -1,0 +1,111 @@
+// #include<bits/stdc++.h>
+// using namespace std;
+
+// #define ll long long
+// #define pii pair<int,int>
+// const int MOD = (int)(1e9+7);
+// int dx[4]={-1,0,0,1};
+// int dy[4]={0,-1,1,0};
+// int dx1[8]={-1,-1,-1,0,0,1,1,1};
+// int dy1[8]={-1,0,1,-1,1,-1,0,1};
+// int n,m;
+// vector<int>adj[1005];
+// bool vis[1005];
+// void nhap(){
+//     cin>>n>>m;
+//     for(int i=1;i<=m;i++){
+//         int x,y;
+//         cin>>x>>y;
+//         adj[x].push_back(y);
+//     }
+// }
+// void dfs(int s){
+//     vis[s]=true;
+//     for(int x:adj[s]){
+//         if(!vis[x]){
+//             dfs(x);
+//         }
+//     }
+// }
+// int main(){
+//     nhap();
+//     for(int i=1;i<=n;i++){
+//         memset(vis,false,sizeof(vis));
+//         dfs(i);
+//         for(int j=1;j<=n;j++){
+//             if(vis[j]==false){
+//                 cout<<"0"<<endl;
+//                 return 0;
+//             }
+//         }
+//     }
+//     cout<<"1"<<endl;
+//     system("pause");
+// }
+
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+vector<int>adj[1005];
+vector<int>t_adj[1005];
+stack<int>st;
+bool vis[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        adj[x].push_back(y);
+        t_adj[y].push_back(x);
+    }
+    ms(vis,false);
+}
+void dfs(int x){
+    vis[x]=true;
+    for(int v:adj[x]){
+        if(!vis[v]){
+            dfs(v);
+        }
+    }
+    st.push(x);
+}
+void dfs2(int x){
+    vis[x]=true;
+    for(int v:t_adj[x]){
+        if(!vis[v]){
+            dfs2(v);
+        }
+    }
+}
+bool kosaraju(){
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            dfs(i);
+        }
+    }
+    int scc=0;
+    ms(vis,false);
+    while(!st.empty()){
+        int u=st.top();
+        st.pop();
+        if(!vis[u]){
+            ++scc;
+            dfs2(u);
+        }
+    }
+    return scc==1;
+}
+int main(){
+    nhap();
+    if(kosaraju()){
+        cout<<1<<endl;
+    }
+    else cout<<0<<endl;
+    system("pause");
+}
