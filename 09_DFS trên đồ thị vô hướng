@@ -1,0 +1,34 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+const int MOD = (int)(1e9+7);
+int n,m,s;
+vector<int>ke[1005];
+bool vis[1005];
+void dfs(int x){
+    vis[x]=true;
+    cout<<x<<' ';
+    for(int v:ke[x]){
+        if(!vis[v]){
+            dfs(v);
+        }
+    }
+}
+
+int main(){
+    cin>>n>>m>>s;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        ke[y].push_back(x);
+        memset(vis,false,sizeof(vis));
+    }
+    for(int i=1;i<=n;i++){
+        sort(ke[i].begin(),ke[i].end());
+    }
+    dfs(s);
+    system("pause");
+}
