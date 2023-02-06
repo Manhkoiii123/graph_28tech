@@ -1,0 +1,107 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+vector<int>ke[1005];
+bool vis[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        ke[y].push_back(x);
+    }
+    ms(vis,false);
+}
+int max_n;
+int ele;
+set<int>se;
+void dfs(int x){
+    vis[x]=true;
+    se.insert(x);
+    for(int v:ke[x]){
+        if(!vis[v]){
+            dfs(v);
+        }
+    }
+}
+int main(){
+    nhap();
+    vector<int>v;
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            se.clear();
+            dfs(i);
+            int max_ele=INT_MIN;
+            int ans=0;
+            for(auto it:se){
+                if((int)ke[it].size()>max_ele){
+                    max_ele=ke[it].size();
+                    ans=it;
+                }
+            }
+            v.push_back(ans);
+        }
+    }
+    sort(all(v));
+    for(int x:v){
+        cout<<x<<" ";
+    }
+    system("pause");
+}
+
+
+
+----------------------------------------------------------HOÀNG-------------------------------------------
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+vector<int>ke[1005];
+bool vis[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        ke[y].push_back(x);
+    }
+    ms(vis,false);
+}
+int dfs(int x,int leader){
+    vis[x]=true;
+    if(ke[x].size()>ke[leader].size()) leader=x;
+    else if(ke[x].size()==ke[leader].size()&&x<leader) leader=x;
+    for(int v:ke[x]){
+        if(!vis[v]){
+            leader=dfs(v,leader);
+        }
+    }
+    return leader;
+}
+int main(){
+    nhap();
+    vector<int>v;
+    for(int i=1;i<=n;i++){
+        if(!vis[i]){
+            v.push_back(dfs(i,i));
+        }
+    }
+    sort(all(v));
+    for(auto it:v){
+        cout<<it<<" ";
+    }
+    system("pause");
+}
