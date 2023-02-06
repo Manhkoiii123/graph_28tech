@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,s,t,u,v;
+int a[1005][1005];
+int dx[8] = {1 , 1 , -1 , -1 , 2 , 2 , -2 , -2};
+int dy[8] = {2 , -2 , 2 , -2 , 1 , -1 , 1 , -1};
+int dis[1005][1005];
+void nhap(){
+    cin>>n>>s>>t>>u>>v;
+    --s;--t;--u;--v;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+            cin>>a[i][j];
+        }
+    }
+}
+void bfs(int s,int t,int u,int v){
+    ms(dis,-1);
+    queue<pii>q;
+    q.push({s,t});
+    dis[s][t]=0;
+    a[s][t]=0;
+    while(!q.empty()){
+        pii top=q.front();
+        q.pop();
+        int i=top.first;
+        int j=top.second;
+        if(i==u&&j==v){
+            cout<<dis[i][j]<<endl;
+            system("pause");
+            return ;
+        }
+        for(int k=0;k<8;k++){
+            int imoi=i+dx[k];
+            int jmoi=j+dy[k];
+            if(imoi>=0&&imoi<n&&jmoi>=0&&jmoi<n&&a[imoi][jmoi]==1){
+                q.push({imoi,jmoi});
+                dis[imoi][jmoi]=dis[i][j]+1;
+                a[imoi][jmoi]=0;
+            }
+        }
+    }
+    cout<<-1<<endl;
+}
+
+int main(){
+    nhap();
+    bfs(s,t,u,v);
+    system("pause");
+}
