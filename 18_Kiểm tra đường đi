@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+
+
+int par[1005];
+int size[1005];
+int n,m;
+void khoi_tao(){
+    cin>>n>>m;
+    for(int i=1;i<=n;i++){
+        par[i]=i;
+        size[i]=1;
+    }
+}
+
+int find(int u){
+    if(u==par[u]){
+        return u;
+    }
+    return par[u]=find(par[u]);
+}
+
+bool Union(int a,int b){
+    a=find(a);
+    b=find(b);
+    if(a==b) return false;
+    if(size[a]<size[b]) swap(a,b);
+    size[a]+=size[b];
+    par[b]=a;
+    return true;
+}
+int main(){
+    khoi_tao();
+    for(int i=1;i<=m;i++){
+        int a,b;
+        cin>>a>>b;
+        
+        Union(a,b);
+    }
+    int t;
+    cin>>t;
+    while(t--){
+        int x,y;
+        cin>>x>>y;
+        if(par[x]==par[y]){
+            cout<<1<<endl;
+        }
+        else{
+            cout<<-1<<endl;
+        }
+    }
+    system("pause");
+}
