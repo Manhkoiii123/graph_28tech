@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+int n,m;
+vector<int>ke[1005];
+int color[1005];
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y;
+        cin>>x>>y;
+        ke[x].push_back(y);
+        ke[y].push_back(x);
+    }
+    ms(color,-1);
+}
+bool bfs(int x){
+    queue<int>q;
+    q.push(x);
+    color[x]=0;
+    while(!q.empty()){
+        int top=q.front();q.pop();
+        for(int z:ke[top]){
+            if(color[z]==-1){
+                color[z]=1-color[top];
+                q.push(z);
+            }
+            else{
+                if(color[z]==color[top]){
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+int main(){
+    nhap();
+    bool check=true;
+    for(int i=1;i<=n;i++){
+        if(color[i]==-1){
+            if(!bfs(i)){
+                check=false;
+                break;
+            }
+        }
+    }
+    if(check) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
+    system("pause");
+}
