@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+#define all(a) a.begin(),a.end()
+#define ms(s,n) memset(s,n,sizeof(s))
+const int MOD = (int)(1e9+7);
+struct edge{
+    int x,y,w;
+};
+int n,m;
+vector<edge>v;
+void nhap(){
+    cin>>n>>m;
+    for(int i=0;i<m;i++){
+        int x,y,z;
+        cin>>x>>y>>z;
+        edge e({x,y,z});
+        v.push_back(e);
+    }
+}
+int par[100005];
+int sz[100005];
+void khoi_tao(){
+    for(int i=1;i<=n;i++){
+        par[i]=i;
+        sz[i]=1;
+    }
+}
+int find(int a){
+    if(a==par[a]){
+        return a;
+    }
+    return par[a]=find(par[a]);
+}
+bool Union(int a,int b){
+    a=find(a);
+    b=find(b);
+    if(a==b) return false;
+    if(sz[a]<sz[b]) swap(a,b);
+    sz[a]+=sz[b];
+    par[b]=a;
+    return true;
+}
+
+void kruskal(){
+    vector<edge>MST;
+    ll d=0;
+    sort(all(v),[](edge a,edge b)->bool{
+        return a.w<b.w;
+    });
+    for(edge e:v){
+        if(MST.size()==n-1) break;
+        if(Union(e.x,e.y)){
+            MST.push_back(e);
+            d+=e.w;
+        }
+    }
+    if(MST.size()!=n-1) cout<<"IMPOSSIBLE"<<endl;
+    else cout<<d<<endl;
+}
+
+int main(){
+    nhap();
+    khoi_tao();
+    kruskal();
+    system("pause");
+}
