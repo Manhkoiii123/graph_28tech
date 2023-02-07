@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+#define pii pair<int,int>
+const int MOD = (int)(1e9+7);
+int n,m,s;
+vector<pii> adj[1005];
+void nhap(){
+    cin>>n>>m>>s;
+    for(int i=0;i<m;i++){
+        int x,y,w;
+        cin>>x>>y>>w;
+        adj[x].push_back({y,w});
+        adj[y].push_back({x,w});
+
+    }
+}
+
+void dijkstra(int s){
+    //luu chi phi duong di
+    vector<int> dist(n+1,1e9);
+    dist[s]=0;//chi phi cua s den no=0
+    priority_queue<pii,vector<pii>,greater<pii>>Q;
+    
+    Q.push({0,s});
+    while(!Q.empty()){
+        pii top=Q.top();
+        Q.pop();
+        int d=top.first;
+        int u=top.second;
+        if(d>dist[u]){
+            continue;
+        }
+        //relaxtion
+        for(auto it:adj[u]){
+            int w=it.second;
+            int v=it.first;
+            if(dist[v]>dist[u]+w){
+                dist[v]=dist[u]+w;
+                Q.push({dist[v],v});
+            }
+        }
+    }
+    for(int i=1;i<=n;i++){
+        cout<<dist[i]<<" ";
+    }
+
+}
+int main(){
+    nhap();
+    dijkstra(s);
+    system("pause");
+}
